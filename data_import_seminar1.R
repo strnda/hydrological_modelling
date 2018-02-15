@@ -10,6 +10,8 @@ ifelse(!dir.exists('data'), dir.create('data'), FALSE)
 
 id <- '01048000'
 
+list.files('data/') #######
+
 download.file(paste0('ftp://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily/', id, '.dly'),
               paste0('data/',id, '.dly'),
               method = 'auto',
@@ -21,9 +23,27 @@ dta <- as.data.frame(t(apply(dta.raw, MARGIN = 1, FUN = function(x) as.numeric(s
 
 names(dta) <- c('Y','M','D','P','E','Q','Tmax','Tmin')
 
-dta <- data.frame(DTM = as.Date(paste(dta$Y, dta$M, dta$D, sep = '-'),
+dta <- data.table(DTM = as.Date(paste(dta$Y, dta$M, dta$D, sep = '-'),
                                 format = '%Y-%m-%d'),
                   dta[, c('P','E','Q','Tmax','Tmin')])
 
 head(dta)
+
+ggplot(dta.x) +
+  geom_line(aes(x = DTM, y = Q), colour = 'steelblue4') +
+  theme_bw() +
+  labs(x = 'Time', y = 'Discharge', title = id)
+
+dta.x <- dta[Q >= 0,]
+
+which(diff(dta.x$DTM) > 1)
+
+seq(from = dta.x[1,DTM],
+    )
+
+
+
+
+
+
 
