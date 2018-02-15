@@ -1,11 +1,10 @@
 ---
-title: 'Hydrologické Modelování'
+title: ''
 output:
-  prettydoc::html_pretty:
-    theme: architect
-    highlight: github
-    number_sections: yes
-    toc: yes
+  html_document
+header-includes:
+   - \usepackage[czech]{babel}
+   - \usepackage[utf8]{inputenc}
 editor_options: 
   chunk_output_type: console
 ---
@@ -13,14 +12,14 @@ editor_options:
 Autoregresnı́ model vyjadřuje průtok jako lineárnı́ kombinace předešlých  
 $$ Q(t) = \beta_{1}\cdot Q(t-1) + \beta_{2}\cdot Q(t-2) + \beta_{3}\cdot Q(t-3) +  ... + \beta_{h}\cdot Q(t-h) $$  
 
-1. Vytvořte funkci, která spočte hodnotu $\gamma_h$ pomocí následující rovnice, argumenty funkce jsou vektor průtoků $Q$ a časový posun $h$
+1. Vytvořte funkci, která spočte hodnotu $\gamma_h$ pomocí následující rovnice, argumenty funkce jsou vektor průtoků $Q$ a časový posun $h$    
 $$ \gamma_{h} = \frac{1}{N-h}\sum_{t=1}^{N-h}(Q_{t}-\bar{Q})\cdot (Q_{t-h}-\bar{Q}) $$       
-2. Vytvořte funkci, která spočte vektor $\gamma$ opakovaným volánı́m funkce vytvořené v prvnı́k kroku. Argumenty funkce jsou vektor průtoků $Q$ a sekvence průtokové historie $1:h$
-$$ \gamma = \begin{pmatrix} \gamma_{1} \\  \gamma_{2} \\  \gamma_{3} \\ \vdots \\ \gamma_{h} \end{pmatrix} $$  
-3. Vytvořte funkci, která naplní matici $\Gamma$ opakovaným volánı́m funkce vytvořené v prvnı́ kroku. Argumenty funkce jsou vektor průtoků $Q$ a sekvence průtokové historie $0:h-1$
-$$ \Gamma = \begin{pmatrix} \gamma_{0}  & \gamma_{1} &  \gamma_{2}& \cdots & \gamma_{h-1} \\ \gamma_{1} & \gamma_{0} & & & \gamma_{h-2} \\ \gamma_{2}  & & \gamma_{0} & & \gamma_{h-3} \\ \vdots & & & \ddots & \vdots  \\ \gamma_{h-1} & \gamma_{h-2} & \gamma_{h-3} &  \cdots & \gamma_{0} \end{pmatrix} $$  
-4. Vytvořte funkci, která spočte následující rovnici pro různou délku průtokové historie
-$$ \beta=\Gamma^{-1}\cdot \gamma $$  
+2. Vytvořte funkci, která spočte vektor $\gamma$ opakovaným volánı́m funkce vytvořené v prvnı́k kroku. Argumenty funkce jsou vektor průtoků $Q$ a sekvence průtokové historie $1:h$    
+$$ \gamma = \begin{pmatrix} \gamma_{1} \\  \gamma_{2} \\  \gamma_{3} \\ \vdots \\ \gamma_{h} \end{pmatrix} $$    
+3. Vytvořte funkci, která naplní matici $\Gamma$ opakovaným volánı́m funkce vytvořené v prvnı́ kroku. Argumenty funkce jsou vektor průtoků $Q$ a sekvence průtokové historie $0:h-1$    
+$$ \Gamma = \begin{pmatrix} \gamma_{0}  & \gamma_{1} &  \gamma_{2}& \cdots & \gamma_{h-1} \\ \gamma_{1} & \gamma_{0} & & & \gamma_{h-2} \\ \gamma_{2}  & & \gamma_{0} & & \gamma_{h-3} \\ \vdots & & & \ddots & \vdots  \\ \gamma_{h-1} & \gamma_{h-2} & \gamma_{h-3} &  \cdots & \gamma_{0} \end{pmatrix} $$    
+4. Vytvořte funkci, která spočte následující rovnici pro různou délku průtokové historie    
+$$ \beta=\Gamma^{-1}\cdot \gamma $$    
 5. Vytvořte funkci, která Vám spočte hledaná průtoková data. Vstupem jsou odhadnuté parametry $\beta$ a vektor průtoků $\overrightarrow{Q}$
 $$Q = \beta \cdot \overrightarrow{Q}$$  
 6. Vytvořte funkci na vizualizaci výsledků  
