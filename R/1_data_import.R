@@ -1,3 +1,5 @@
+source('R/aux/imports.R')
+
 lop <- c('data.table', 'ggplot2')
 
 to.instal <- lop[which(!lop %in% installed.packages()[,'Package'])]
@@ -27,29 +29,22 @@ ggplot(dta) +
   theme_bw() +
   labs(x = 'Time', y = 'Discharge', title = id)
 
-periody <- function(dta, n = 3, period = 10, start.year = NULL, safety.net = 10) {
-  
-  dta.subset <- dta[Q >= 0,]
-  year <- start.year
-  if(is.null(year)) year <- as.numeric(dta.subset[1,format(DTM, '%Y')])
-  
-  i <- 1
-  x <- 0
-  
-  dec <- list()
-  
-  while (x < safety.net) {
-    
-    dec[[i]] <- dta.subset[DTM %between% c(as.Date(paste(year + 1, '11-1', sep = '-')), as.Date(paste(year + 11, '10-31', sep = '-')))]
-    
-    if(i == n) break
-    if(!dim(dec[[i]])[1] < period*365) i <- i + 1
-    
-    x <- x + 1
-    year <- year + period
-  }
-  
-  dec
+dekady <- periods(dta)
+
+ggplot(dekady) +
+  geom_line(aes(x = DTM, y = Q), colour = 'steelblue4') +
+  theme_bw() +
+  labs(x = 'Time', y = 'Discharge', title = id) +
+  facet_wrap(~.id, scales = 'free', ncol = 1)
+
+cal_q <- dekady[.id == 'period_1', Q]
+
+h <- 3
+N <- length(cal_q)
+
+dta_Q <- matrix(NA, nrow = N - h, ncol = h) 
+
+for (i in 1:h){
+  dta_Q[,i] <- cal_q[(h + 1 - i):(N - i)]
 }
 
-dekady <- periody(dta)
