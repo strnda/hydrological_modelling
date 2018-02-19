@@ -29,15 +29,17 @@ ggplot(dta) +
   theme_bw() +
   labs(x = 'Time', y = 'Discharge', title = id)
 
-dekady <- periods(dta)
+dta.test <- periods(dta, n = 20, length = 5, safety.net = 20)
 
-ggplot(dekady) +
+ggplot(dta.test) +
   geom_line(aes(x = DTM, y = Q), colour = 'steelblue4') +
   theme_bw() +
   labs(x = 'Time', y = 'Discharge', title = id) +
   facet_wrap(~.id, scales = 'free', ncol = 1)
 
-cal_q <- dekady[.id == 'period_1', Q]
+DTA <- periods(dta)
+
+cal_q <- DTA[.id == 1, Q]
 
 h <- 3
 N <- length(cal_q)
@@ -48,3 +50,4 @@ for (i in 1:h){
   dta_Q[,i] <- cal_q[(h + 1 - i):(N - i)]
 }
 
+matplot(dta_Q, type = 'l')
