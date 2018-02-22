@@ -26,28 +26,3 @@ periods <- function(dta, n = 3, length = 10, start = NULL, safety.net = 100) {
   
   rbindlist(dec, idcol = T)
 }
-
-data.matrix <- function(Q, h) {
-  
-  N <- length(cal.q)
-  
-  dta.Q <- matrix(NA, nrow = N - h, ncol = h) 
-  
-  for (i in 1:h){
-    dta.Q[,i] <- cal.q[(h + 1 - i):(N - i)]
-  }
-  
-  dta.Q
-}
-
-Gamma <- function(Q, h) {
-  
-  N <- length(Q)
-  Nh <- N - h
-  
-  mQ <- mean(Q)
-  Q_1 <- Q[1:Nh]
-  Q_2 <- Q[(1 + h):N]
-  
-  1/Nh*sum((Q_1 - mQ)*(Q_2 - mQ))
-}
