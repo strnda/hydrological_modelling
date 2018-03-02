@@ -5,6 +5,28 @@ source('R/aux_fun/aux_objective_fun.R', local = attach(NULL))
 
 dta.cal <- DTA[.id == 1,]
 
+# basic R approach
+
+ERR <- list()
+
+for(h in 1:35) {
+  
+  q.sim <- AR(dta.cal[,Q], h)
+  ERR[[h]] <- data.frame(lag = h, 
+                         MAE = MAE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         ME = ME(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         MSDE = MSDE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         MSE = MSE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         MSLE = MSLE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         PI1 = PI1(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         PLC = PLC(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         R2 = R2(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         R4MS4E = R4MS4E(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
+                         RMSE = RMSE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim))
+}
+
+# advanced R approach
+
 obj <- lsf.str('NULL')
 ERR <- list()
 
@@ -13,6 +35,8 @@ for(h in 1:35) {
   q.sim <- AR(dta.cal[,Q], h)
   ERR[[h]] <- c(lag = h, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[h:.N,Q], Qsim = q.sim))}))
 }
+
+# the rest
 
 err <- do.call(rbind, ERR)
 
@@ -28,7 +52,7 @@ for(i in 2:dim(err)[2]) {
   winner[i - 1] <- err[which(abs(err[,i][is.finite(err[,i])] - number) == min(abs(err[,i][is.finite(err[,i])] - number))), 1]
 }
 
-best_h <- which.max(table(winner))
+best_h <- as.numeric(names(which.max(table(winner))))
 
 Q <- dta.cal[ ,Q]
 Q.sim <- AR(Q, best_h)

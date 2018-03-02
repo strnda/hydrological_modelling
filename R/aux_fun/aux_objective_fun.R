@@ -2,7 +2,7 @@ ME <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -16,7 +16,7 @@ MAE <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -30,7 +30,7 @@ MSE <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -44,7 +44,7 @@ MSDE <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res1 <- vector(mode = 'numeric', length = length(Qmer-1))
     res2 <- vector(mode = 'numeric', length = length(Qmer-1))
@@ -60,7 +60,7 @@ MSLE <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -77,7 +77,7 @@ RMSE <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -91,7 +91,7 @@ R4MS4E <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res <- vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -105,7 +105,7 @@ R2 <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     res<-vector(mode = 'numeric', length = length(Qmer))
     N <- pocet_mer_dat
@@ -120,7 +120,7 @@ PLC <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     N <- pocet_mer_dat
     Ql <- quantile(Qmer,0.25)
@@ -142,7 +142,7 @@ PI1 <- function(Qmer,Qsim) {
   pocet_mer_dat <- length(Qmer)
   pocet_sim_dat <- length(Qsim)
   
-  if (pocet_mer_dat != pocet_sim_dat) return('length(Qmer) != length(Qsim)')
+  if (pocet_mer_dat != pocet_sim_dat) return('Lenght of observed values does not equal length of simulated values')
   else{
     N <- pocet_mer_dat
     qmer <- Qmer[2:N]
