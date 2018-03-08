@@ -1,6 +1,5 @@
-Gamma <- function(Q, h) {
+Gamma <- function(Q, N, h) {
   
-  N <- length(Q)
   Nh <- N - h
   
   mQ <- mean(Q)
@@ -19,7 +18,7 @@ AR <- function(Q, h = 3) {
     dta.Q[,i] <- Q[(h + 1 - i):(N - i + 1)]
   }
   
-  g <- mapply(Gamma, h = 0:h, MoreArgs = list(Q = Q))
+  g <- mapply(Gamma, h = 0:h, MoreArgs = list(Q = Q, N = N))
   
   gVector <- g[2:(h + 1)]
   

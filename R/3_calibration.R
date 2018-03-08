@@ -3,7 +3,7 @@ source('R/2_AR_model.R')
 
 source('R/aux_fun/aux_objective_fun.R', local = attach(NULL))
 
-dta.cal <- DTA[.id == 1,]
+dta.cal <- DTA[.id == 2,]
 
 # basic R approach
 
