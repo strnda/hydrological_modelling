@@ -2,9 +2,7 @@ source('R/3_calibration.R')
 
 head(dta.cal, 4)
 
-dta.val <- DTA[.id %in% c(1,3),]
-
-best_h <- 22 # second best lag
+dta.val <- DTA[!(.id %in% unique(dta.cal[,.id])),]
 
 Q.cal <- AR(dta.cal[,Q], best_h)
 Q.val <- AR(dta.val[,Q], best_h)
@@ -45,4 +43,3 @@ val <- data.frame(cal = sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[
                   val = sapply(obj, function(x) {do.call(x, list(Qmer = dta.val[best_h:.N,Q], Qsim = Q.val))}))
 
 round(val, digits = 10)
-
