@@ -25,20 +25,16 @@ for(h in 1:35) {
                          RMSE = RMSE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim))
 }
 
+err <- do.call(rbind, ERR)
+
 # advanced R approach
 
 obj <- lsf.str('NULL')
-ERR <- list()
 
-for(h in 1:35) {
-  
-  q.sim <- AR(dta.cal[,Q], h)
-  ERR[[h]] <- c(lag = h, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[h:.N,Q], Qsim = q.sim))}))
-}
+sims <- mapply(AR, h = 1:35, MoreArgs = list(dta.cal[,Q]))
+err <- t(sapply(X = seq_along(sims), FUN = function(X, ...) {c(lag = X, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[X:.N,Q], Qsim = sims[[X]]))}))}))
 
 # the rest
-
-err <- do.call(rbind, ERR)
 
 winner <- c()
 for(i in 2:dim(err)[2]) {
