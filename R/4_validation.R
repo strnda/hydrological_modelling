@@ -1,6 +1,6 @@
 source('R/3_calibration.R')
 
-head(dta.cal, 4)
+# head(dta.cal, 4)
 
 dta.val <- DTA[!(.id %in% unique(dta.cal[,.id])),]
 
@@ -38,7 +38,7 @@ ggplot() +
                         round(max(dta.val[best_h:.N,Q] - Q.val), 3)))
 
 
-obj <- lsf.str('NULL')
+# obj <- lsf.str('NULL')
 val <- data.frame(cal = sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[best_h:.N,Q], Qsim = Q.cal))}),
                   val = sapply(obj, function(x) {do.call(x, list(Qmer = dta.val[best_h:.N,Q], Qsim = Q.val))}))
 
