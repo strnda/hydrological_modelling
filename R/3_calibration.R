@@ -7,32 +7,40 @@ dta.cal <- DTA[.id %in% c(2),]
 
 # basic R approach
 
-ERR <- list()
-
-for(h in 1:35) {
+system.time({ # eval time
   
-  q.sim <- AR(dta.cal[,Q], h)
-  ERR[[h]] <- data.frame(lag = h, 
-                         MAE = MAE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         ME = ME(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         MSDE = MSDE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         MSE = MSE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         MSLE = MSLE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         PI1 = PI1(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         PLC = PLC(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         R2 = R2(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         R4MS4E = R4MS4E(Qmer = dta.cal[h:.N,Q], Qsim = q.sim),
-                         RMSE = RMSE(Qmer = dta.cal[h:.N,Q], Qsim = q.sim))
-}
+  ERR <- list()
+  
+  for(h in 1:35) {
+    
+    q.sim <- AR(dta.cal[,Q], h)
+    ERR[[h]] <- data.frame(lag = h, 
+                           MAE = MAE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           ME = ME(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           MSDE = MSDE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           MSE = MSE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           MSLE = MSLE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           PI1 = PI1(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           PLC = PLC(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           R2 = R2(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           R4MS4E = R4MS4E(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
+                           RMSE = RMSE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim))
+  }
+  
+  err <- do.call(rbind, ERR)
+})
 
-err <- do.call(rbind, ERR)
 
 # advanced R approach
 
-obj <- lsf.str('NULL')
+system.time({ # eval time
+  
+  obj <- lsf.str('NULL')
+  
+  sims <- mapply(AR, h = 1:35, MoreArgs = list(dta.cal[,Q]))
+  err <- t(sapply(X = seq_along(sims), FUN = function(X, ...) {c(lag = X, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[(X + 1):.N,Q], Qsim = sims[[X]]))}))}))
+})
 
-sims <- mapply(AR, h = 1:35, MoreArgs = list(dta.cal[,Q]))
-err <- t(sapply(X = seq_along(sims), FUN = function(X, ...) {c(lag = X, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[X:.N,Q], Qsim = sims[[X]]))}))}))
 
 # the rest
 
@@ -54,7 +62,7 @@ Q <- dta.cal[ ,Q]
 Q.sim <- AR(Q, best_h)
 
 ggplot() +
-  geom_line(aes(x = seq_along(Q[-best_h]), y = Q[-best_h], colour = factor(1))) +
+  geom_line(aes(x = seq_along(Q[-(1:best_h)]), y = Q[-(1:best_h)], colour = factor(1))) +
   geom_line(aes(x = seq_along(Q.sim), y = Q.sim, colour = factor(2))) +
   theme_bw() +
   labs(x = 'Time', y = 'Discharge', title = paste('Ideal AR-model lag =', best_h))  +

@@ -13,9 +13,9 @@ AR <- function(Q, h = 3) {
   
   N <- length(Q)
   
-  dta.Q <- matrix(NA, nrow = N - h + 1, ncol = h)
+  dta.Q <- matrix(NA, nrow = N - h, ncol = h)
   for (i in 1:h){
-    dta.Q[,i] <- Q[(h + 1 - i):(N - i + 1)]
+    dta.Q[,i] <- Q[(h + 1 - i):(N - i)]
   }
   
   g <- mapply(Gamma, h = 0:h, MoreArgs = list(Q = Q, N = N))

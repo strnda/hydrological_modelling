@@ -26,3 +26,23 @@ periods <- function(dta, n = 3, length = 10, start = NULL, safety.net = 100) {
   
   rbindlist(dec, idcol = T)
 }
+
+model.plot <- function(Qobs, Qsim, h, title = 'Model') {
+  
+  gg <- ggplot() +
+    geom_line(aes(x = seq_along(Qobs[-(1:h)]), y = Qobs[-(1:h)]), colour = 'steelblue4') +
+    geom_line(aes(x = seq_along(Qsim), y = Qsim), colour = 'red4') +
+    geom_line(aes(x = seq_along(Qobs[-(1:h)] - Qsim), y = Qobs[-(1:h)] - Qsim), colour = 'orange', alpha = .5) +
+    theme_bw() +
+    labs(x = 'Time',
+         y = 'Discharge', 
+         title = title, 
+         subtitle = paste('Residuals min =', 
+                          round(min(Qobs[-(1:h)] - Qsim), 3),
+                          '\nResiduals mean =',
+                          round(mean(Qobs[-(1:h)] - Qsim), 3),
+                          '\nResiduals max =',
+                          round(max(Qobs[-(1:h)] - Qsim), 3)))
+  
+  return(gg)
+}
