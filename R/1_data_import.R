@@ -1,6 +1,6 @@
 source('R/aux_fun/aux_functions.R')
 
-lop <- c('data.table', 'ggplot2')
+lop <- c('data.table', 'ggplot2', 'DEoptim')
 
 to.instal <- lop[which(!lop %in% installed.packages()[,'Package'])]
 
