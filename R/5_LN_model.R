@@ -12,7 +12,7 @@ LN <- function(dta, h = rev(seq_along(dta)), Q = NULL) {
     dta.matrix <- matrix(NA, nrow = N - max(h), ncol = h.act)
     
     for (i in 1:h.act){
-      dta.matrix[,i] <- dta.lin[(max(h) + 1 - i):(N - i), j]
+      dta.matrix[,i] <- dta[(max(h) + 1 - i):(N - i), j]
     }
     
     A[[j]] <- dta.matrix
