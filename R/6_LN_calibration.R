@@ -1,5 +1,5 @@
 source('R/1_data_import.R')
-source('R/5_linear_model.R')
+source('R/5_LN_model.R')
 source('R/aux_fun/aux_objective_fun.R')
 
 fit.lm <- function(dta,
