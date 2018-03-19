@@ -1,30 +1,31 @@
-source('R/1_data_import.R')
-
-dta.lin <- as.data.frame(DTA[.id %in% c(2), .(Q, P, E)])
-
-h <- rev(seq_along(dta.lin))
-
-N <- dim(dta.lin)[1]
-
-A <- list() 
-
-for (j in 1:dim(dta.lin)[2]) {
+LN <- function(dta, h = rev(seq_along(dta)), Q = NULL) {
   
-  h.act <- h[j]
-  dta.matrix <- matrix(NA, nrow = N - max(h), ncol = h.act)
+  dta <- as.data.frame(dta)
+
+  N <- dim(dta)[1]
   
-  for (i in 1:h.act){
-    dta.matrix[,i] <- dta.lin[(max(h) + 1 - i):(N - i), j]
+  A <- list() 
+  
+  for (j in 1:dim(dta)[2]) {
+    
+    h.act <- h[j]
+    dta.matrix <- matrix(NA, nrow = N - max(h), ncol = h.act)
+    
+    for (i in 1:h.act){
+      dta.matrix[,i] <- dta.lin[(max(h) + 1 - i):(N - i), j]
+    }
+    
+    A[[j]] <- dta.matrix
+  }
+  matrix.A <- do.call(cbind, A)
+  
+  if(is.null(Q)) {
+    vector.Q <- dta[max(h + 1):N, 'Q']
+  } else {
+    vector.Q <- Q[max(h + 1):N]
   }
   
-  A[[j]] <- dta.matrix
+  Beta <- solve(t(matrix.A) %*% matrix.A) %*% (t(matrix.A) %*% vector.Q)
+  
+  matrix.A %*% Beta
 }
-matrix.A <- do.call(cbind, A)
-
-vector.Q <- dta.lin[max(h + 1):N, 'Q']
-
-Beta <- solve(t(matrix.A) %*% matrix.A) %*% (t(matrix.A) %*% vector.Q)
-
-Q.sim <- matrix.A %*% Beta
-
-model.plot(Qobs = dta.lin[,'Q'], Qsim = Q.sim, h = max(h))
