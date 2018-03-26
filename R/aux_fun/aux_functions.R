@@ -24,7 +24,7 @@ periods <- function(dta, n = 3, length = 10, start = NULL, safety.net = 100) {
     x <- x + 1
   }
   
-  rbindlist(dec, idcol = T)
+  rbindlist(dec, idcol = TRUE)
 }
 
 model.plot <- function(Qobs, Qsim, h, title = 'Model') {
