@@ -13,8 +13,8 @@ fit.LN <- function(dta,
   
   sim <- function(w){
     
-    res.sim <- as.vector(LN(dta = dta, h = w))
-    res.obs <- unlist(dta[-(1:max(w)),'Q'])
+    res.sim <- LN(dta = dta, h = w)
+    res.obs <- dta[-(1:max(w)),'Q']
     
     crit(res.obs, res.sim)
   }
