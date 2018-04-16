@@ -23,9 +23,9 @@ fit.LN <- function(dta,
   
 }
 
-dta.cal <- DTA[.id %in% c(2), .(Q, P, Tmax)]
+dta.cal <- DTA[.id %in% c(2),]
 
-para <- fit.LN(dta.cal, crit = function(x, y) 1 - PLC(x, y))
+para <- fit.LN(dta.cal[, .(Q, P)], crit = function(x, y) MSDE(x, y))
 
 ggplot(melt(para$member$bestmemit)) +
   geom_line(aes(x = Var1, y = value, colour = Var2)) +
@@ -38,7 +38,6 @@ ggplot() +
   labs(x = 'Iteration', y = 'Value', title = 'Objective function values') +
   theme_classic()
 
-Q.cal <- LN(dta.cal, para$optim$bestmem)
+Q.cal <- LN(dta.cal[, .(Q, P)], para$optim$bestmem)
 
 model.plot(Qobs = dta.cal[, Q], Qsim = Q.cal, h = max(para$optim$bestmem))
-
