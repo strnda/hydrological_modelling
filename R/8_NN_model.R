@@ -25,6 +25,7 @@ dta.matrix <- function(dta, h = rev(seq_along(dta))) {
   do.call(cbind, A)
 }
 
+dta.cal <- DTA[.id %in% 2,]
 
 NN.dta <- dta.matrix(dta.cal[,.(Q, P)])
 
