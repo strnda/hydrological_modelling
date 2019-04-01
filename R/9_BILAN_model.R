@@ -1,6 +1,6 @@
 source('R/1_data_import.R')
 
-install.packages('https://tinyurl.com/y96ujbbd', type = 'source', repo = NULL)
+install.packages('https://tinyurl.com/y2fvb5uj', type = 'source', repo = NULL)
 
 library(bilan)
 
