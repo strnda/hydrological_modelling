@@ -6,11 +6,13 @@ to.instal <- lop[which(!lop %in% installed.packages()[,'Package'])]
 
 if(length(to.instal) != 0) install.packages(to.instal)
 
-lapply(lop, library, character.only = T)
+temp <- lapply(lop, library, character.only = T)
+rm(temp)
 
 id <- '04201500'
 
-dta <- as.data.table(read.fwf(sprintf('ftp://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily/%s.dly', id), widths = c(8,10,10,10,10,10)))
+dta <- as.data.table(read.fwf(sprintf('ftp://nero.hwr.arizona.edu/mopex/MOPEX_daily/%s.dly', id), 
+                              widths = c(8, 10, 10, 10, 10, 10)))
 
 names(dta) <- c('DTM', 'P', 'E', 'Q', 'Tmax', 'Tmin')
 
