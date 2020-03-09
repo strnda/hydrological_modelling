@@ -1,5 +1,7 @@
 source('R/aux_fun/aux_functions.R')
 
+# zmena je zivot
+
 lop <- c('data.table', 'ggplot2', 'DEoptim', 'AMORE')
 
 to.instal <- lop[which(!lop %in% installed.packages()[,'Package'])]
