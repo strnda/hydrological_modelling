@@ -13,21 +13,36 @@ system.time({ # eval time
   
   for(h in 1:35) {
     
-    q.sim <- AR(dta.cal[,Q], h)
-    ERR[[h]] <- data.frame(lag = h, 
-                           MAE = MAE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           ME = ME(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           MSDE = MSDE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           MSE = MSE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           MSLE = MSLE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           PI1 = PI1(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           PLC = PLC(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           R2 = R2(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           R4MS4E = R4MS4E(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim),
-                           RMSE = RMSE(Qmer = dta.cal[(h + 1):.N,Q], Qsim = q.sim))
+    q.sim <- AR(Q = dta.cal[,Q],
+                h = h)
+    
+    ERR[[h]] <- data.frame(
+      lag = h, 
+      MAE = MAE(Qmer = dta.cal[(h + 1):.N, Q],
+                Qsim = q.sim),
+      ME = ME(Qmer = dta.cal[(h + 1):.N, Q],
+              Qsim = q.sim),
+      MSDE = MSDE(Qmer = dta.cal[(h + 1):.N, Q], 
+                  Qsim = q.sim),
+      MSE = MSE(Qmer = dta.cal[(h + 1):.N, Q], 
+                Qsim = q.sim),
+      MSLE = MSLE(Qmer = dta.cal[(h + 1):.N, Q],
+                  Qsim = q.sim),
+      PI1 = PI1(Qmer = dta.cal[(h + 1):.N, Q],
+                Qsim = q.sim),
+      PLC = PLC(Qmer = dta.cal[(h + 1):.N, Q],
+                Qsim = q.sim),
+      R2 = R2(Qmer = dta.cal[(h + 1):.N, Q],
+              Qsim = q.sim),
+      R4MS4E = R4MS4E(Qmer = dta.cal[(h + 1):.N, Q],
+                      Qsim = q.sim),
+      RMSE = RMSE(Qmer = dta.cal[(h + 1):.N, Q],
+                  Qsim = q.sim)
+    )
   }
   
-  err <- do.call(rbind, ERR)
+  err <- do.call(what = rbind, 
+                 args = ERR)
 })
 
 
@@ -37,10 +52,20 @@ system.time({ # eval time
   
   obj <- lsf.str('NULL')
   
-  sims <- mapply(AR, h = 1:35, MoreArgs = list(dta.cal[,Q]))
-  err <- t(sapply(X = seq_along(sims), FUN = function(X, ...) {c(lag = X, sapply(obj, function(x) {do.call(x, list(Qmer = dta.cal[(X + 1):.N,Q], Qsim = sims[[X]]))}))}))
+  sims <- mapply(FUN = AR, 
+                 h = 1:35, 
+                 MoreArgs = list(dta.cal[,Q]))
+  
+  err <- t(sapply(X = seq_along(sims), 
+                  FUN = function(X, ...) {
+                    c(lag = X, 
+                      sapply(obj, function(x) {
+                        do.call(what = x,
+                                args = list(Qmer = dta.cal[(X + 1):.N,Q], 
+                                            Qsim = sims[[X]]))
+                        }))
+                    }))
 })
-
 
 # the rest
 
