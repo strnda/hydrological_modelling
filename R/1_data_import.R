@@ -11,8 +11,9 @@ rm(temp)
 
 id <- '04201500'
 
-dta <- as.data.table(read.fwf(sprintf('ftp://nero.hwr.arizona.edu/mopex/MOPEX_daily/%s.dly', id), 
-                              widths = c(8, 10, 10, 10, 10, 10)))
+dta <- as.data.table(read.fwf(sprintf('https://hydrology.nws.noaa.gov/pub/gcip/mopex/US_Data/Us_438_Daily/%s.dly', id), 
+                              widths = c(8,10,10,10,10,10)))
+
 
 names(dta) <- c('DTM', 'P', 'E', 'Q', 'Tmax', 'Tmin')
 
