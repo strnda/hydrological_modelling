@@ -1,6 +1,6 @@
 # Hydrological_modelling
 
-Materiály pro kurz Hydrologické modelování, ČZU FŽP, LS 2017/2018
+Materiály pro kurz Hydrologické modelování, ČZU FŽP, LS 2020/2021
 
 Mapa:
 
